@@ -1,0 +1,40 @@
+name: Scrape PC Prices
+
+on:
+  schedule:
+    # Run daily at 6 AM Bangladesh Time (midnight UTC)
+    - cron: "0 0 * * *"
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install scraper dependencies
+        run: |
+          cd scraper
+          npm init -y
+          npm install axios cheerio @supabase/supabase-js
+
+      - name: Run price scraper
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+        run: node scraper/scraper.js
+
+      - name: Upload scraped data as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: price-data-${{ github.run_number }}
+          path: scraper/data/
+          retention-days: 30
