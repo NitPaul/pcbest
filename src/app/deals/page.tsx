@@ -3,7 +3,7 @@
 import { TrendingDown, Tag, Flame, Clock, ArrowRight } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
 import { useData } from "@/components/DataProvider";
-import { getMaxDiscount, getBestPrice, formatPrice } from "@/lib/data";
+import { getMaxDiscount, getBestPrice, formatPrice, getShopUrl } from "@/lib/data";
 
 export default function DealsPage() {
   const { products } = useData();
@@ -60,7 +60,7 @@ export default function DealsPage() {
                 Best price at <strong>{topDealBest.shop}</strong>
               </p>
               <a
-                href={topDeal.prices.find((p) => p.shop === topDealBest.shop)?.url}
+                href={getShopUrl(topDealBest.shop, topDeal.name)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-4 inline-flex items-center gap-2 bg-danger hover:bg-danger/90 text-white px-6 py-2.5 rounded-xl font-medium transition"

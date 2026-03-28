@@ -7,9 +7,10 @@ import {
   ShoppingCart, Share2, BarChart3, Clock,
 } from "lucide-react";
 import { useData } from "@/components/DataProvider";
-import { getBestPrice, getMaxDiscount, formatPrice, generatePriceHistory } from "@/lib/data";
+import { getBestPrice, getMaxDiscount, formatPrice, generatePriceHistory, getShopUrl } from "@/lib/data";
 import { SHOP_INFO, ShopName } from "@/lib/types";
 import PriceChart from "@/components/PriceChart";
+import ProductImage from "@/components/ProductImage";
 
 export default function ProductDetailPage() {
   const { products } = useData();
@@ -68,9 +69,10 @@ export default function ProductDetailPage() {
         {/* Product Image */}
         <div className="bg-card border border-card-border rounded-2xl p-8 flex items-center justify-center">
           <div className="relative w-full max-w-md aspect-square">
-            <img
+            <ProductImage
               src={product.image}
               alt={product.name}
+              category={product.category}
               className="w-full h-full object-contain"
             />
             {discount > 0 && (
@@ -123,7 +125,7 @@ export default function ProductDetailPage() {
               at <strong>{SHOP_INFO[best.shop as ShopName]?.name}</strong>
             </p>
             <a
-              href={product.prices.find((p) => p.shop === best.shop)?.url}
+              href={getShopUrl(best.shop, product.name)}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-3 inline-flex items-center gap-2 bg-success hover:bg-success/90 text-white px-6 py-2.5 rounded-xl font-medium transition"
@@ -238,7 +240,7 @@ export default function ProductDetailPage() {
                       </td>
                       <td className="px-5 py-4 text-right">
                         <a
-                          href={price.url}
+                          href={getShopUrl(price.shop, product.name)}
                           target="_blank"
                           rel="noopener noreferrer"
                           className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition ${

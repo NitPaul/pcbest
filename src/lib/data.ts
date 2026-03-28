@@ -374,6 +374,28 @@ export const products: Product[] = [
   },
 ];
 
+// Generate a real search URL for a shop so "Buy" buttons actually work
+const SHOP_SEARCH_URLS: Record<string, (q: string) => string> = {
+  Startech: (q) => `https://www.startech.com.bd/product/search?search=${encodeURIComponent(q)}`,
+  Ryans: (q) => `https://www.ryans.com/searchresult?term=${encodeURIComponent(q)}`,
+  TechLand: (q) => `https://www.techlandbd.com/index.php?route=product/search&search=${encodeURIComponent(q)}`,
+  BinaryLogic: (q) => `https://www.binarylogic.com.bd/search?q=${encodeURIComponent(q)}`,
+  UltraTech: (q) => `https://www.ultratech.com.bd/search?q=${encodeURIComponent(q)}`,
+  Skyland: (q) => `https://www.skyland.com.bd/search?q=${encodeURIComponent(q)}`,
+  Nexus: (q) => `https://www.nexus.com.bd/search?q=${encodeURIComponent(q)}`,
+  PCHouse: (q) => `https://www.pchouse.com.bd/search?q=${encodeURIComponent(q)}`,
+  PotakaIT: (q) => `https://potakait.com/search?q=${encodeURIComponent(q)}`,
+  ComputerImporter: (q) => `https://computerimporter.com/search?q=${encodeURIComponent(q)}`,
+};
+
+export function getShopUrl(shopName: string, productName: string, originalUrl?: string): string {
+  // If the original URL actually works (from scraper), use it
+  // Otherwise generate a search URL that will work
+  const generator = SHOP_SEARCH_URLS[shopName];
+  if (generator) return generator(productName);
+  return originalUrl || "#";
+}
+
 export function getBestPrice(product: Product): { price: number; shop: string } {
   const inStockPrices = product.prices.filter((p) => p.inStock);
   if (inStockPrices.length === 0) return { price: product.prices[0].price, shop: product.prices[0].shop };

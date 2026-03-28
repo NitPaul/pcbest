@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { ShoppingCart, TrendingDown, Star, ExternalLink } from "lucide-react";
 import { Product, SHOP_INFO, ShopName } from "@/lib/types";
-import { getBestPrice, getMaxDiscount, formatPrice } from "@/lib/data";
+import { getBestPrice, getMaxDiscount, formatPrice, getShopUrl } from "@/lib/data";
+import ProductImage from "./ProductImage";
 
 export default function ProductCard({ product, onCompare, onAddToBuild }: {
   product: Product;
@@ -19,9 +20,10 @@ export default function ProductCard({ product, onCompare, onAddToBuild }: {
       {/* Image */}
       <Link href={`/products/${product.slug}`} className="block relative">
         <div className="aspect-square bg-muted-bg p-6 flex items-center justify-center overflow-hidden">
-          <img
+          <ProductImage
             src={product.image}
             alt={product.name}
+            category={product.category}
             className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
           />
         </div>
@@ -66,7 +68,7 @@ export default function ProductCard({ product, onCompare, onAddToBuild }: {
             <p className="text-xl font-bold text-primary">{formatPrice(best.price)}</p>
           </div>
           <a
-            href={product.prices.find((p) => p.shop === best.shop)?.url}
+            href={getShopUrl(best.shop, product.name)}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-1 bg-primary hover:bg-primary-dark text-white text-xs font-medium px-3 py-2 rounded-lg transition"
