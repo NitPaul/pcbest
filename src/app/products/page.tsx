@@ -4,7 +4,8 @@ import { useState, useMemo, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { Search, SlidersHorizontal, X, ChevronDown } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
-import { products, categories, searchProducts } from "@/lib/data";
+import { useData } from "@/components/DataProvider";
+import { searchProducts, categories as defaultCategories } from "@/lib/data";
 
 type SortOption = "relevance" | "price-low" | "price-high" | "rating" | "name";
 
@@ -17,6 +18,7 @@ export default function ProductsPage() {
 }
 
 function ProductsContent() {
+  const { products, categories } = useData();
   const searchParams = useSearchParams();
   const initialQuery = searchParams.get("q") || "";
   const initialCategory = searchParams.get("category") || "";
@@ -31,10 +33,22 @@ function ProductsContent() {
   const brands = useMemo(() => {
     const brandSet = new Set(products.map((p) => p.brand));
     return Array.from(brandSet).sort();
-  }, []);
+  }, [products]);
 
   const filteredProducts = useMemo(() => {
-    let result = searchProducts(query, selectedCategory);
+    let result = products.filter((p) => {
+      if (selectedCategory && p.category !== selectedCategory) return false;
+      if (query) {
+        const q = query.toLowerCase();
+        if (
+          !p.name.toLowerCase().includes(q) &&
+          !p.brand.toLowerCase().includes(q) &&
+          !p.category.toLowerCase().includes(q) &&
+          !Object.values(p.specs).some((v) => v.toLowerCase().includes(q))
+        ) return false;
+      }
+      return true;
+    });
 
     if (selectedBrand) {
       result = result.filter((p) => p.brand === selectedBrand);

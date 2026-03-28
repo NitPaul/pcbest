@@ -2,9 +2,11 @@
 
 import { TrendingDown, Tag, Flame, Clock, ArrowRight } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
-import { products, getMaxDiscount, getBestPrice, formatPrice } from "@/lib/data";
+import { useData } from "@/components/DataProvider";
+import { getMaxDiscount, getBestPrice, formatPrice } from "@/lib/data";
 
 export default function DealsPage() {
+  const { products } = useData();
   const dealsProducts = products
     .filter((p) => getMaxDiscount(p) > 0)
     .sort((a, b) => getMaxDiscount(b) - getMaxDiscount(a));

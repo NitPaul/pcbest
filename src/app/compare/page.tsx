@@ -3,10 +3,12 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import { BarChart3, Plus, X, Search, CheckCircle, XCircle, ArrowRight } from "lucide-react";
-import { products, getBestPrice, formatPrice } from "@/lib/data";
+import { useData } from "@/components/DataProvider";
+import { getBestPrice, formatPrice } from "@/lib/data";
 import { Product, SHOP_INFO, ShopName } from "@/lib/types";
 
 export default function ComparePage() {
+  const { products } = useData();
   const [selected, setSelected] = useState<Product[]>([]);
   const [showPicker, setShowPicker] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");

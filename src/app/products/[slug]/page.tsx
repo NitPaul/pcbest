@@ -6,11 +6,13 @@ import {
   ArrowLeft, ExternalLink, CheckCircle, XCircle, Star, TrendingDown,
   ShoppingCart, Share2, BarChart3, Clock,
 } from "lucide-react";
-import { products, getBestPrice, getMaxDiscount, formatPrice, generatePriceHistory } from "@/lib/data";
+import { useData } from "@/components/DataProvider";
+import { getBestPrice, getMaxDiscount, formatPrice, generatePriceHistory } from "@/lib/data";
 import { SHOP_INFO, ShopName } from "@/lib/types";
 import PriceChart from "@/components/PriceChart";
 
 export default function ProductDetailPage() {
+  const { products } = useData();
   const { slug } = useParams<{ slug: string }>();
   const product = products.find((p) => p.slug === slug);
 

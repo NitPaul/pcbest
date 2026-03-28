@@ -6,7 +6,8 @@ import {
   Wrench, Plus, X, ChevronDown, Download, Share2, Trash2,
   CheckCircle, AlertTriangle, ShoppingCart, ExternalLink, Search,
 } from "lucide-react";
-import { products, getBestPrice, formatPrice, categories } from "@/lib/data";
+import { useData } from "@/components/DataProvider";
+import { getBestPrice, formatPrice } from "@/lib/data";
 import { Product, COMPONENT_CATEGORIES, SHOP_INFO, ShopName } from "@/lib/types";
 
 interface BuildSlot {
@@ -17,6 +18,7 @@ interface BuildSlot {
 }
 
 export default function PCBuilderPage() {
+  const { products } = useData();
   const [slots, setSlots] = useState<BuildSlot[]>(
     COMPONENT_CATEGORIES.map((c) => ({
       category: c.key,

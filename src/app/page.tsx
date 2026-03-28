@@ -9,7 +9,8 @@ import {
   ArrowRight, ShoppingBag, BarChart3, Wrench, Shield, Clock, Star,
 } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
-import { products, categories, getBestPrice, getMaxDiscount, formatPrice } from "@/lib/data";
+import { useData } from "@/components/DataProvider";
+import { getBestPrice, getMaxDiscount, formatPrice } from "@/lib/data";
 
 const iconMap: Record<string, React.ElementType> = {
   Cpu, CircuitBoard, MemoryStick, Monitor, HardDrive, Zap, Box, Fan, Database, Keyboard, Mouse,
@@ -17,6 +18,7 @@ const iconMap: Record<string, React.ElementType> = {
 };
 
 export default function Home() {
+  const { products, categories } = useData();
   const [searchQuery, setSearchQuery] = useState("");
   const router = useRouter();
 

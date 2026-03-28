@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AIChatbot from "@/components/AIChatbot";
 import ThemeProvider from "@/components/ThemeProvider";
+import DataProvider from "@/components/DataProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -69,10 +70,12 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col">
         <ThemeProvider>
-          <Navbar />
-          <main className="flex-1">{children}</main>
-          <Footer />
-          <AIChatbot />
+          <DataProvider>
+            <Navbar />
+            <main className="flex-1">{children}</main>
+            <Footer />
+            <AIChatbot />
+          </DataProvider>
         </ThemeProvider>
       </body>
     </html>
