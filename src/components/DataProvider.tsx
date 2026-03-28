@@ -37,12 +37,13 @@ export default function DataProvider({ children }: { children: React.ReactNode }
           fetchCategories(),
         ]);
 
-        // Only switch to live data if we got results
-        if (prods.length > 0) {
+        // Only switch to live data if Supabase returned MORE products than mock
+        // This prevents showing a nearly-empty site from a partially seeded DB
+        if (prods.length >= mockProducts.length) {
           setProducts(prods);
           setIsLive(true);
         }
-        if (cats.length > 0) {
+        if (cats.length >= mockCategories.length) {
           setCategories(cats);
         }
       } catch {

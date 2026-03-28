@@ -64,7 +64,7 @@ export default function Home() {
             </div>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-              Find the <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">Best PC Prices</span> in Bangladesh
+              Find the <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">Best PC Component Prices</span> in Bangladesh
             </h1>
 
             <p className="mt-5 text-lg text-blue-100/80 max-w-2xl mx-auto">

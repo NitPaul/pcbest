@@ -19,7 +19,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "PCBest - Best PC Component Prices in Bangladesh",
+    default: "PCBest - Find the Best PC Component Prices in Bangladesh",
     template: "%s | PCBest",
   },
   description:
